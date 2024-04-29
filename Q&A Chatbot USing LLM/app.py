@@ -12,8 +12,17 @@ import os
 ## Function to load OpenAI model and get respones
 
 def get_openai_response(question):
-    llm=OpenAI(model_name="text-davinci-003",temperature=0.5)
-    response=llm(question)
+    # Retrieve the API key from environment variables
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY environment variable not set.")
+    
+    # Initialize the OpenAI model
+    llm = OpenAI(openai_api_key=api_key, model_name="text-davinci-003", temperature=0.5)
+    
+    # Generate a response for the given question
+    response = llm.generate(question)
+    
     return response
 
 ##initialize our streamlit app
